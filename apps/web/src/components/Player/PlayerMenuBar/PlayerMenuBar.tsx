@@ -4,6 +4,7 @@ import { Typography, Grid, Button } from '@material-ui/core';
 import { useAppState } from '../../../state';
 import { raiseHand } from '../../../state/api/api';
 import { useEnqueueSnackbar } from '../../../hooks/useSnackbar/useSnackbar';
+import SegmentButton from '../../Buttons/SegmentButton/SegmentButton';
 import LowerHandIcon from '../../../icons/LowerHandIcon';
 import RaiseHandIcon from '../../../icons/RaiseHandIcon';
 
@@ -69,6 +70,10 @@ export default function PlayerMenuBar({ roomName, disconnect }: { roomName?: str
               {isHandRaised ? 'Lower Hand' : 'Raise Hand'}
             </Button>
           </Grid>
+        </Grid>
+
+        <Grid container>
+          <SegmentButton />
         </Grid>
 
         <Grid style={{ flex: 1 }}>

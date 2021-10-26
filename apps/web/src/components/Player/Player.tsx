@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Player as TwilioPlayer } from '@twilio/player-sdk';
 import PlayerMenuBar from './PlayerMenuBar/PlayerMenuBar';
+import SegmentButton from '../Buttons/SegmentButton/SegmentButton';
 import usePlayerContext from '../../hooks/usePlayerContext/usePlayerContext';
 import { useAppState } from '../../state';
 import { useEnqueueSnackbar } from '../../hooks/useSnackbar/useSnackbar';
@@ -55,6 +56,7 @@ export default function Player() {
       <div className={classes.container}>
         <video className={classes.video} ref={videoElRef}></video>
       </div>
+      <SegmentButton />
       <PlayerMenuBar roomName={appState.eventName} disconnect={disconnect} />
     </div>
   );

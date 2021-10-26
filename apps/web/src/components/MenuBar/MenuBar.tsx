@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import EndEventButton from '../Buttons/EndEventButton/EndEventButton';
 import LeaveEventButton from '../Buttons/LeaveEventButton/LeaveEventButton';
+import SegmentButton from '../Buttons/SegmentButton/SegmentButton';
 import { isMobile } from '../../utils';
 import Menu from './Menu/Menu';
 import useRoomState from '../../hooks/useRoomState/useRoomState';
@@ -81,6 +82,7 @@ export default function MenuBar() {
           <Button onClick={() => toggleScreenShare()}>Stop Sharing</Button>
         </Grid>
       )}
+      <SegmentButton />
       <footer className={classes.container}>
         <Grid container justifyContent="space-around" alignItems="center">
           <Hidden smDown>
@@ -101,6 +103,7 @@ export default function MenuBar() {
           <Hidden smDown>
             <Grid style={{ flex: 1 }}>
               <Grid container justifyContent="flex-end">
+                <SegmentButton />
                 {appState.participantType === 'host' ? <EndEventButton /> : <LeaveEventButton />}
               </Grid>
             </Grid>
