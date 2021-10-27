@@ -25,6 +25,7 @@ export default function SegmentButton(props: { className?: string }) {
 
   async function segment() {
     console.log('Insert Segment Call here');
+    trackAction('segmentButtonPress');
   }
 
   return (

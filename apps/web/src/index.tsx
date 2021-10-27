@@ -19,7 +19,8 @@ import useConnectionOptions from './utils/useConnectionOptions/useConnectionOpti
 import UnsupportedBrowserWarning from './components/UnsupportedBrowserWarning/UnsupportedBrowserWarning';
 import { SyncProvider } from './components/SyncProvider';
 import { SnackbarProvider } from './components/Snackbar/SnackbarProvider';
-import Analytics from '@segment/analytics.js-core/build/analytics';
+// import  Analytics  from '@segment/analytics.js-core/build/analytics';
+import Analytics from 'analytics-node';
 import SegmentIntegration from '@segment/analytics.js-integration-segmentio';
 
 // Here we redirect the user to a URL with a hash. This maintains backwards-compatibility with URLs
@@ -32,14 +33,11 @@ const VideoApp = () => {
   const { error, setError } = useAppState();
   const connectionOptions = useConnectionOptions();
   const history = useHistory();
-  const [analytics, setAnalytics] = useState(null);
+  const [analytics, setAnalytics] = useState<string[]>([]);
 
   useEffect(() => {
     //if we set up segment, and then they disabled, tear segment down
-    if (analytics) {
-      setAnalytics(null);
-      window.analytics = null;
-    }
+
     if (!process.env.REACT_APP_SEGMENT_KEY) return;
 
     if (!analytics) {
@@ -55,11 +53,20 @@ const VideoApp = () => {
       segment.page();
     }
     return history.listen(() => {
-      if (analytics) {
-        analytics.page();
-      }
+      // if (analytics) {
+      //   analytics.page();
+      // }
       // console.log('tracking page')
     });
+    // const analytics = Analytics({
+    //   app: 'awesome-app',
+    //   plugins: [
+    //     segmentPlugin({
+    //       writeKey: process.env.REACT_APP_SEGMENT_KEY
+    //     })
+    //   ]
+    // })
+    // analytics.page();
   }, [history, analytics]);
 
   return (

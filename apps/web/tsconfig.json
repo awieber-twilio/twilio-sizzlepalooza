@@ -14,10 +14,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "noImplicitAny": true,
+    "types": ["segment-analytics", "jest"],
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "../../node_modules/"
+]
 }

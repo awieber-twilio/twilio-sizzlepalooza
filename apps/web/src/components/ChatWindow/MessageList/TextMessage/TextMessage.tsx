@@ -30,7 +30,7 @@ function addLinks(text: string) {
   const matches = linkify().match(text);
   if (!matches) return text;
 
-  const results = [];
+  const results: any[] = [];
   let lastIndex = 0;
 
   matches.forEach((match, i) => {
