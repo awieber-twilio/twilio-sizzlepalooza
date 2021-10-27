@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { CssBaseline } from '@material-ui/core';
@@ -6,7 +6,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import App from './App';
 import AppStateProvider, { useAppState } from './state';
-import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import ErrorDialog from './components/ErrorDialog/ErrorDialog';
 import LoginPage from './components/LoginPage/LoginPage';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
@@ -19,6 +19,8 @@ import useConnectionOptions from './utils/useConnectionOptions/useConnectionOpti
 import UnsupportedBrowserWarning from './components/UnsupportedBrowserWarning/UnsupportedBrowserWarning';
 import { SyncProvider } from './components/SyncProvider';
 import { SnackbarProvider } from './components/Snackbar/SnackbarProvider';
+import Analytics from '@segment/analytics.js-core/build/analytics';
+import SegmentIntegration from '@segment/analytics.js-integration-segmentio';
 
 // Here we redirect the user to a URL with a hash. This maintains backwards-compatibility with URLs
 // like https://my-twilio-video-app.com/room/test-room, which will be redirected to https://my-twilio-video-app.com/#/room/test-room
@@ -29,6 +31,36 @@ if (!window.location.hash) {
 const VideoApp = () => {
   const { error, setError } = useAppState();
   const connectionOptions = useConnectionOptions();
+  const history = useHistory();
+  const [analytics, setAnalytics] = useState(null);
+
+  useEffect(() => {
+    //if we set up segment, and then they disabled, tear segment down
+    if (analytics) {
+      setAnalytics(null);
+      window.analytics = null;
+    }
+    if (!process.env.REACT_APP_SEGMENT_KEY) return;
+
+    if (!analytics) {
+      let segment = new Analytics();
+      segment.use(SegmentIntegration);
+      segment.initialize({
+        'Segment.io': {
+          apiKey: process.env.REACT_APP_SEGMENT_KEY,
+        },
+      });
+      setAnalytics(segment);
+      window.analytics = segment;
+      segment.page();
+    }
+    return history.listen(() => {
+      if (analytics) {
+        analytics.page();
+      }
+      // console.log('tracking page')
+    });
+  }, [history, analytics]);
 
   return (
     <SnackbarProvider>

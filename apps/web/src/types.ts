@@ -10,6 +10,7 @@ declare module 'twilio-video' {
 
 declare global {
   interface Window {
+    analytics: any;
     visualViewport?: {
       scale: number;
     };
