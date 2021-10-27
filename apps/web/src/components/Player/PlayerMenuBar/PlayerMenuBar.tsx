@@ -72,8 +72,10 @@ export default function PlayerMenuBar({ roomName, disconnect }: { roomName?: str
           </Grid>
         </Grid>
 
-        <Grid container>
-          <SegmentButton />
+        <Grid style={{ flex: 1 }}>
+          <Grid container>
+            <SegmentButton />
+          </Grid>
         </Grid>
 
         <Grid style={{ flex: 1 }}>
